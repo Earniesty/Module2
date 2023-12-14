@@ -38,6 +38,7 @@ function guestForm() {
     span2.style.cursor = "pointer";
     span2.style.color = "red";
     span2.textContent = "[X]";
+    span2.addEventListener('click' , removeGuest)
 
     displayArea.appendChild(divNew);
     divNew.appendChild(span1);
@@ -79,14 +80,24 @@ function guestForm() {
 
   // 6. Function to remove a guest
   function removeGuest(event) {
-    const eventId = event.target.id
-    const splitName = eventId.split('-')
-    const fname = splitName[0]
-    const lname = splitName[1]
-    const deleteGuest =  {firstname: fname, lastname: lname}
-    guests.removeGuest(deleteGuest)
-    const removeDiv = event.target.parentElement // event.target == span , event.target.parentElement == div
-    removeDiv.remove()
+    // const eventId = event.target.id
+    // const splitName = eventId.split('-')
+    // const fname = splitName[0]
+    // const lname = splitName[1]
+    // const deleteGuest =  {firstname: fname, lastname: lname}
+    // guests.removeGuest(deleteGuest)
+    // const removeDiv = event.target.parentElement // event.target == span , event.target.parentElement == div
+    // removeDiv.remove()
+
+    const displayArea = document.getElementById('display-area')
+    //const searchInput = document.getElementById('search-input').value
+    displayArea.replaceChildren()
+    guests.removeGuest({
+      firstname: event.target.parentElement.children[0].textContent.split(' ')[0], 
+      lastname: event.target.parentElement.children[0].textContent.split(' ')[1]
+    })
+    //displayGuests(guests.getAllGuests())
+    displayGuests(guests.searchGuests(document.getElementById('search-input').value))
   }
   return {
     registerEventHandling,
